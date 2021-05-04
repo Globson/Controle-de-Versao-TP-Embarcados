@@ -1,24 +1,21 @@
-#include <Servo.h>
 #include <LiquidCrystal.h>
-
-int DelayFechamento = 0,AbertoSempre=0;
-long long unsigned int Intervalo_Tempo = 0;
-int Tempo_dalay = 0, Delay_Abertura;
 const int rs = 12, en = 11, d4 = 7, d5 = 6, d6 = 5, d7 = 4;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
-Servo servo_9;
+struct Configuracao
+{
+    long long unsigned int Intervalo_Tempo = 0;
+    int DelayFechamento = 0;
+    int AbertoSempre = 0;
+};
+struct Configuracao Conf;
 
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 void setup()
 {
     lcd.begin(16, 2);
-    pinMode(2, INPUT);
-    pinMode(A1, INPUT);
-    pinMode(A2, INPUT);
-    pinMode(A3, INPUT);
-    servo_9.attach(9);
-    servo_9.write(0);
-    pinMode(A0, INPUT);
     Serial.begin(9600);
+    lcd.clear();
+    pinMode(2, INPUT);
+    pinMode(A0, INPUT);
     lcd.clear();
     lcd.print("Primeiro defina");
     lcd.setCursor(0, 1);
@@ -30,7 +27,7 @@ void setup()
         if (analogRead(A0) < 110)
         {
             lcd.print("Aberto sempre.");
-            AbertoSempre = 1;
+            Conf.AbertoSempre = 1;
             delay(500);
         }
         else if (analogRead(A0) < 292)
@@ -38,8 +35,8 @@ void setup()
             lcd.print("Abrir a cada");
             lcd.setCursor(0, 1);
             lcd.print("3 horas.");
-            AbertoSempre = 0;
-            Intervalo_Tempo = 3;
+            Conf.AbertoSempre = 0;
+            Conf.Intervalo_Tempo = 3;
             delay(500);
         }
         else if (analogRead(A0) < 438)
@@ -47,8 +44,8 @@ void setup()
             lcd.print("Abrir a cada");
             lcd.setCursor(0, 1);
             lcd.print("6 horas.");
-            AbertoSempre = 0;
-            Intervalo_Tempo = 6;
+            Conf.AbertoSempre = 0;
+            Conf.Intervalo_Tempo = 6;
             delay(500);
         }
         else if (analogRead(A0) < 584)
@@ -56,8 +53,8 @@ void setup()
             lcd.print("Abrir a cada");
             lcd.setCursor(0, 1);
             lcd.print("9 horas.");
-            AbertoSempre = 0;
-            Intervalo_Tempo = 9;
+            Conf.AbertoSempre = 0;
+            Conf.Intervalo_Tempo = 9;
             delay(500);
         }
         else if (analogRead(A0) < 730)
@@ -65,8 +62,8 @@ void setup()
             lcd.print("Abrir a cada");
             lcd.setCursor(0, 1);
             lcd.print("12 horas.");
-            AbertoSempre = 0;
-            Intervalo_Tempo = 12;
+            Conf.AbertoSempre = 0;
+            Conf.Intervalo_Tempo = 12;
             delay(500);
         }
         else if (analogRead(A0) < 876)
@@ -74,8 +71,8 @@ void setup()
             lcd.print("Abrir a cada");
             lcd.setCursor(0, 1);
             lcd.print("18 horas.");
-            AbertoSempre = 0;
-            Intervalo_Tempo = 18;
+            Conf.AbertoSempre = 0;
+            Conf.Intervalo_Tempo = 18;
             delay(500);
         }
         else if (analogRead(A0) < 1024)
@@ -83,13 +80,14 @@ void setup()
             lcd.print("Abrir a cada");
             lcd.setCursor(0, 1);
             lcd.print("24 horas.");
-            AbertoSempre = 0;
-            Intervalo_Tempo = 24;
+            Conf.AbertoSempre = 0;
+            Conf.Intervalo_Tempo = 24;
             delay(500);
         }
     }
-    Intervalo_Tempo = Intervalo_Tempo * 100;
-    if(!AbertoSempre){
+    Conf.Intervalo_Tempo = Conf.Intervalo_Tempo * 100;
+    if (!Conf.AbertoSempre)
+    {
         lcd.clear();
         lcd.print("Agora defina");
         lcd.setCursor(0, 1);
@@ -103,7 +101,7 @@ void setup()
                 lcd.print("Racao despejada");
                 lcd.setCursor(0, 1);
                 lcd.print("por 3 segundos.");
-                DelayFechamento = 3000;
+                Conf.DelayFechamento = 3000;
                 delay(500);
             }
             else if (analogRead(A0) < 240)
@@ -111,7 +109,7 @@ void setup()
                 lcd.print("Racao despejada");
                 lcd.setCursor(0, 1);
                 lcd.print("por 5 segundos.");
-                DelayFechamento = 5000;
+                Conf.DelayFechamento = 5000;
                 delay(500);
             }
             else if (analogRead(A0) < 360)
@@ -119,7 +117,7 @@ void setup()
                 lcd.print("Racao despejada");
                 lcd.setCursor(0, 1);
                 lcd.print("por 8 segundos.");
-                DelayFechamento = 8000;
+                Conf.DelayFechamento = 8000;
                 delay(500);
             }
             else if (analogRead(A0) < 480)
@@ -127,7 +125,7 @@ void setup()
                 lcd.print("Racao despejada");
                 lcd.setCursor(0, 1);
                 lcd.print("por 10 segundos.");
-                DelayFechamento = 10000;
+                Conf.DelayFechamento = 10000;
                 delay(500);
             }
             else if (analogRead(A0) < 600)
@@ -135,7 +133,7 @@ void setup()
                 lcd.print("Racao despejada");
                 lcd.setCursor(0, 1);
                 lcd.print("por 12 segundos.");
-                DelayFechamento = 12000;
+                Conf.DelayFechamento = 12000;
                 delay(500);
             }
             else if (analogRead(A0) < 720)
@@ -143,7 +141,7 @@ void setup()
                 lcd.print("Racao despejada");
                 lcd.setCursor(0, 1);
                 lcd.print("por 15 segundos.");
-                DelayFechamento = 15000;
+                Conf.DelayFechamento = 15000;
                 delay(500);
             }
             else if (analogRead(A0) < 840)
@@ -151,7 +149,7 @@ void setup()
                 lcd.print("Racao despejada");
                 lcd.setCursor(0, 1);
                 lcd.print("por 18 segundos.");
-                DelayFechamento = 18000;
+                Conf.DelayFechamento = 18000;
                 delay(500);
             }
             else if (analogRead(A0) < 1024)
@@ -159,85 +157,25 @@ void setup()
                 lcd.print("Racao despejada");
                 lcd.setCursor(0, 1);
                 lcd.print("por 20 segundos.");
-                DelayFechamento = 20000;
+                Conf.DelayFechamento = 20000;
                 delay(500);
             }
         }
     }
+    //Serial.write(Conf, sizeof(struct Configuracao));
 }
-void Abre_Fecha_Racao(int tempo)
-{
-    lcd.clear();
-    int posicaoInicial = servo_9.read();
-    lcd.print("Abrindo...");
-    servo_9.write(180);
-    delay(tempo);
-    lcd.clear();
-    lcd.print("Fechando...");
-    servo_9.write(posicaoInicial);
-    delay(2000);
-    lcd.clear();
-    lcd.print("Running...");
-}
-void Verifica_Nivel_Racao()
-{
-    if (analogRead(A3) > 600)
-    {
-        lcd.clear();
-        lcd.print("Nivel de racao");
-        lcd.setCursor(0, 1);
-        lcd.print("Rasoavel!");
-        delay(3000);
-    }
-    else if (analogRead(A2) > 600)
-    {
-        lcd.clear();
-        lcd.print("Nivel de racao");
-        lcd.setCursor(0, 1);
-        lcd.print("Medio!");
-        delay(3000);
-    }
-    else if (analogRead(A1) > 600)
-    {
-        lcd.clear();
-        lcd.print("Nivel de racao");
-        lcd.setCursor(0, 1);
-        lcd.print("baixo!");
-        delay(3000);
-    }
 
-    lcd.clear();
-    lcd.print("Running...");
-}
 void loop()
-{   
-  	Serial.write(AbertoSempre);
-    if(AbertoSempre){
+{
+    delay(1000);
+
+    if (Serial.available() > 0)
+    {
         lcd.clear();
-        lcd.print("Aberto sempre..");
-        servo_9.write(180);
-        delay(2000);
+        lcd.print("Arduino 2");
+        lcd.setCursor(0, 1);
+        lcd.print("RECEBEU!!");
+        //lcd.print(Serial.read(), DEC);
+        Serial.flush();
     }
-    else{
-        lcd.clear();
-        lcd.print("Running...");
-        Abre_Fecha_Racao(DelayFechamento);
-        Verifica_Nivel_Racao();
-        for (unsigned int i = 0; i < 36000; i++)
-        {
-            delay(Intervalo_Tempo);
-            if (digitalRead(2) && analogRead(A1)<=600){ //Caso usuario informe que mais racao foi adicionada.
-                lcd.clear();
-                lcd.print("Racao adicionada");
-                lcd.setCursor(0,1);
-                lcd.print("!");
-                delay(2000);
-                lcd.clear();
-                lcd.print("Running...");
-            }
-        }
-    }
-    Serial.println(analogRead(A0));
-    //Serial.println(analogRead(A1));
-    //Serial.println(servo_9.read());
 }
