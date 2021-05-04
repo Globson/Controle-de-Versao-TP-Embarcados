@@ -162,6 +162,10 @@ void setup()
             }
         }
     }
+    lcd.clear();
+    lcd.print("Enviando para");
+    lcd.setCursor(0,1);
+    lcd.print("Arduino...");
     Serial.write((char *)&Conf, sizeof(struct Configuracao));
 }
 
