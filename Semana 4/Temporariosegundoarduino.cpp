@@ -162,7 +162,7 @@ void setup()
             }
         }
     }
-    //Serial.write(Conf, sizeof(struct Configuracao));
+    Serial.write((char *)&Conf, sizeof(struct Configuracao));
 }
 
 void loop()

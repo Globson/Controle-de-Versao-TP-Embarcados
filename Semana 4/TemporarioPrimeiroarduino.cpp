@@ -36,7 +36,7 @@ void setup()
         lcd.print("Arduino");
         lcd.setCursor(0, 1);
         lcd.print("RECEBEU!!");
-        //Serial.readBytes(&Conf_Recebida, sizeof(struct Configuracao));
+        Serial.readBytes((char *)&Conf_Recebida, sizeof(struct Configuracao));
         //Conf_Recebida = Serial.read();
         Serial.flush();
     }
