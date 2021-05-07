@@ -27,7 +27,7 @@ struct Configuracao
     int AbertoSempre = 0;
 };
 struct Configuracao Conf;
-
+bool Reset = false;
 LiquidCrystal lcd(A1, A2, d4, d5, d6, d7);
 void setup()
 {
@@ -41,7 +41,7 @@ void setup()
     lcd.print("Primeiro defina");
     lcd.setCursor(0, 1);
     lcd.print("o tempo:");
-    delay(1800);
+    delay(1000);
     bool primeirodigito = true;
     bool doisdigitos = false;
     lcd.clear();
@@ -214,7 +214,7 @@ void setup()
     lcd.print((int)Conf.Intervalo_Tempo);
     lcd.print(" horas");
     delay(1500);
-    if(Conf.Intervalo_Tempo = 0){
+    if(Conf.Intervalo_Tempo == 0){
         Conf.AbertoSempre = 1;
     }
     else{
@@ -228,7 +228,7 @@ void setup()
         lcd.print("Agora defina");
         lcd.setCursor(0, 1);
         lcd.print("o despejo:");
-        delay(1800);
+        delay(1000);
         primeirodigito = true;
         doisdigitos = false;
         lcd.clear();
@@ -402,7 +402,10 @@ void loop()
     {
         Serial.println(keypressed);
     }*/
-    
+    if(analogRead(A5) != 0){
+        Reset = true;
+        //todo enviar e realizar reset.    
+    }
     delay(1000);
     if (Serial.available() > 0)
     {
