@@ -11,7 +11,7 @@ struct Configuracao
 struct Configuracao Conf_Recebida;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 Servo servo_9;
-
+int nivel_racao;
 void setup()
 {
     lcd.begin(16, 2);
@@ -58,12 +58,13 @@ void Abre_Fecha_Racao(int tempo)
 }
 void Verifica_Nivel_Racao()
 {
-    if (analogRead(A3) > 600)
+    if (analogRead(A1) > 600)
     {
         lcd.clear();
         lcd.print("Nivel de racao");
         lcd.setCursor(0, 1);
-        lcd.print("Razoavel!");
+        lcd.print("baixo!");
+        nivel_racao = 1;
         delay(3000);
     }
     else if (analogRead(A2) > 600)
@@ -72,17 +73,19 @@ void Verifica_Nivel_Racao()
         lcd.print("Nivel de racao");
         lcd.setCursor(0, 1);
         lcd.print("Medio!");
+        nivel_racao = 2;
         delay(3000);
     }
-    else if (analogRead(A1) > 600)
+    else if (analogRead(A3) > 600)
     {
         lcd.clear();
         lcd.print("Nivel de racao");
         lcd.setCursor(0, 1);
-        lcd.print("baixo!");
+        lcd.print("Razoavel!");
+        nivel_racao = 3;
         delay(3000);
     }
-
+    Serial.write((byte *)&nivel_racao,sizeof(int));
     lcd.clear();
     lcd.print("Running...");
 }

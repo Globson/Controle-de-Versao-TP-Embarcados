@@ -41,7 +41,7 @@ void setup()
     lcd.print("Primeiro defina");
     lcd.setCursor(0, 1);
     lcd.print("o tempo:");
-    delay(1000);
+    delay(1500);
     bool primeirodigito = true;
     bool doisdigitos = false;
     lcd.clear();
@@ -228,7 +228,7 @@ void setup()
         lcd.print("Agora defina");
         lcd.setCursor(0, 1);
         lcd.print("o despejo:");
-        delay(1000);
+        delay(1500);
         primeirodigito = true;
         doisdigitos = false;
         lcd.clear();
@@ -393,6 +393,7 @@ void setup()
     lcd.setCursor(0, 1);
     lcd.print("Arduino...");
     Serial.write((char *)&Conf, sizeof(struct Configuracao));
+    delay(1000);
 }
 
 void loop()
@@ -402,18 +403,36 @@ void loop()
     {
         Serial.println(keypressed);
     }*/
+    lcd.clear();
+    lcd.print("Running...");
+    delay(300);
     if(analogRead(A5) != 0){
         Reset = true;
         //todo enviar e realizar reset.    
     }
-    delay(1000);
     if (Serial.available() > 0)
-    {
-        lcd.clear();
-        lcd.print("Arduino 2");
-        lcd.setCursor(0, 1);
-        lcd.print("RECEBEU!!");
-        //lcd.print(Serial.read(), DEC);
+    {   
+        int nivel_racao;
+        Serial.readBytes((char *)&nivel_racao,sizeof(int));
         Serial.flush();
+        if(nivel_racao == 3){
+            lcd.clear();
+            lcd.print("Nivel de");
+            lcd.setCursor(0, 1);
+            lcd.print("racao razoavel!");
+        }
+        else if(nivel_racao == 2){
+            lcd.clear();
+            lcd.print("ATENCAO! Nivel");
+            lcd.setCursor(0, 1);
+            lcd.print("de racao medio!");
+        }
+        else if (nivel_racao == 1){
+            lcd.clear();
+            lcd.print("ATENCAO! Nivel");
+            lcd.setCursor(0, 1);
+            lcd.print("de racao baixo!");
+        }
+        delay(2000);
     }
 }
