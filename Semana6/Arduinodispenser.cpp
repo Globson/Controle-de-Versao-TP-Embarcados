@@ -18,7 +18,6 @@ void setup()
     pinMode(A1, INPUT);
     pinMode(A2, INPUT);
     pinMode(A3, INPUT);
-    pinMode(2, OUTPUT);
     servo_9.attach(9);
     servo_9.write(0);
     Serial.begin(9600);
@@ -110,7 +109,7 @@ void loop()
         for (unsigned int i = 0; i < 36000; i++)
         {
             delay(Conf_Recebida.Intervalo_Tempo);
-            /*if (digitalRead(2) && analogRead(A1) <= 600)
+            if (digitalRead(2) && analogRead(A1) <= 600)
             { //Caso usuario informe que mais racao foi adicionada.
                 lcd.clear();
                 lcd.print("Racao adicionada");
@@ -119,13 +118,6 @@ void loop()
                 delay(2000);
                 lcd.clear();
                 lcd.print("Running...");
-            }*/
-            if (Serial.available() > 0){
-                bool Reset = false;
-                Serial.readBytes((byte*)&Reset,sizeof(Reset));
-                if(Reset){
-                    digitalWrite(2,HIGH);
-                }
             }
         }
     }

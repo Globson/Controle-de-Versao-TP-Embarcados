@@ -35,7 +35,7 @@ void setup()
     lcd.begin(16, 2);
     Serial.begin(9600);
     lcd.clear();
-    pinMode(A0, OUTPUT);
+    pinMode(A0, INPUT);
     pinMode(A5, INPUT);
     lcd.clear();
     lcd.print("Primeiro defina");
@@ -441,11 +441,5 @@ void loop()
             lcd.print("de racao baixo!");
         }
         delay(2000);
-    }
-    if(analogRead(A5)==0){
-        Reset = True;
-        Serial.write((byte*)&Reset,sizeof(Reset));
-        delay(300);
-        analogWrite(A0,255);
     }
 }
